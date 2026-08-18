@@ -1,36 +1,63 @@
-# Python PDF Text Extraction
+# PDF Word Extraction
 
+Extract clean, POS-filtered word lists from batches of PDF files. The Streamlit app, marimo app, and command-line wrapper all use the shared `pdf_word_extraction.py` module in the repository root.
 
-## Prerequisites
+## Install
+
+From the repository root:
+
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r streamlit/requirements.txt
 ```
 
-## Usage
+The first run downloads the required NLTK tagger, stopword, and WordNet data if it is not already available.
+
+## Run the Streamlit app
+
 ```bash
-$ python3 pdf_text_extraction.py -h
-usage: pdf_text_extraction.py [-h] [-o OUTPUT_PATH] [-l] [-ft FILTER_TOKENS] [-vto VALID_TOKENS] [-vta VALID_TAGS] input_path
-
-Extract text from a PDF file.
-
-positional arguments:
-  input_path            Path to the input PDF file.
-
-options:
-  -h, --help            show this help message and exit
-  -o OUTPUT_PATH, --output-path OUTPUT_PATH
-                        Path to save the extracted text. If not provided, it will be stored alongside the input file with an added .txt suffix.
-  -l, --lemmatize       Whether to lemmatize the extracted tokens. Default is False.
-  -ft FILTER_TOKENS, --filter-tokens FILTER_TOKENS
-                        Comma-separated list of tokens to filter out. Default is 'et,al,etc,ie,ISSN,http,https'.
-  -vto VALID_TOKENS, --valid-tokens VALID_TOKENS
-                        Comma-separated list of valid tokens. Default is an empty set.
-  -vta VALID_TAGS, --valid-tags VALID_TAGS
-                        Comma-separated list of valid POS tags. Default is 'NN,NNS,JJ'.
+streamlit run streamlit/gui.py
 ```
 
+## Run the marimo app
 
-## GUI
 ```bash
-streamlit run gui.py
+marimo run extraction.py
 ```
+
+## What the apps do
+
+1. Upload one or more PDFs by drag-and-drop or file browsing.
+2. Choose the parts of speech to keep, such as nouns, adjectives, verbs, adverbs, or proper nouns.
+3. Optionally add advanced NLTK POS tags.
+4. Exclude English stopwords, exact words, or words that start with selected prefixes.
+5. Optionally protect exact words or prefixes so they remain included even when they match an exclusion.
+6. Optionally use an allow-list with "Only include these words".
+7. Download a ZIP containing either:
+   - one `.txt` word list per PDF, or
+   - one `.csv` frequency table per PDF.
+
+For word-list downloads, duplicate removal is controlled by the "Remove duplicates" checkbox. For frequency-table downloads, duplicates are always counted so repeated terms are represented as `word,count` rows instead of repeated text.
+
+If one uploaded file cannot be parsed as a PDF, the rest of the batch still runs and the ZIP includes an `_errors.txt` report.
+
+## Command-line usage
+
+```bash
+python3 streamlit/pdf_text_extraction.py path/to/file-or-folder -o output-folder
+```
+
+Useful options:
+
+```text
+--pos-groups "Nouns,Adjectives,Verbs"
+--valid-tags "NN,NNS,JJ,VBG"
+--filter-tokens "et,al,doi"
+--prefix-filter-tokens "pre,anti"
+--protected-tokens "press"
+--protected-prefixes "prefrontal"
+--valid-tokens "year,study,result"
+--no-lemmatize
+--no-deduplicate
+```
+
+`--valid-tags` overrides the friendly `--pos-groups` selection when provided.

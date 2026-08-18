@@ -1,8 +1,6 @@
-streamlit==1.24.1
-pip==22.0.3
-unstructured==0.8.4
-unstructured-inference==0.5.4
-pypandoc
-pyopenssl
-streamlit_extras
-nltk==3.8.1
+streamlit>=1.24
+marimo>=0.17
+nltk>=3.8
+numpy>=1.23
+pdfplumber>=0.11
+pypdf>=4
