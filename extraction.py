@@ -1,5 +1,5 @@
 # /// script
-# requires-python = ">=3.10"
+# requires-python = ">=3.11"
 # dependencies = [
 #     "marimo",
 #     "nltk==3.9.4",
@@ -81,7 +81,7 @@ def _(folder, mo, names, partition_pdf, pdfs):
     for pdf in mo.status.progress_bar(pdfs, title="working", subtitle="Please wait", show_eta=True, show_rate=True):
 
         if not pdf.startswith(f'{folder}.') and pdf.lower().endswith('.pdf'):
-            try: 
+            try:
                 elements = partition_pdf(
                     filename=pdf,                  # mandatory
                     strategy="auto",                                     # mandatory to use ``hi_res`` strategy
@@ -139,7 +139,7 @@ def _(mo, pos_tag, text_elements, word_tokenize):
             token = word_tokenize(element)
             tagged_tokens.append(pos_tag(token))
 
-        token_elements.append(tagged_tokens)    
+        token_elements.append(tagged_tokens)
     return (token_elements,)
 
 
@@ -180,8 +180,8 @@ def _(WordNetLemmatizer, mo, nltk, stopwords, token_elements, wordnet):
                 if (
                     w.isalpha() and len(w) > 2 and
                     tag in NOUN_TAGS and
-                    w not in stop_words 
-                    and w not in named_entities 
+                    w not in stop_words
+                    and w not in named_entities
                     and w in valid_words
                 ):
                     filtered_tokens.append(w)
