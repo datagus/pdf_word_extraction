@@ -49,3 +49,6 @@ The apps let users:
 If an uploaded file cannot be parsed as a PDF, the apps keep processing the rest of the batch and add an `_errors.txt` report to the ZIP.
 
 The extraction logic cleans common PDF text issues before tagging, including line-break hyphenation, URLs, emails, DOI fragments, `(cid:...)` artifacts, publisher-note fragments, accent-split words, punctuation, and duplicate output when deduplication is enabled.
+
+Note: This is a general-purpose tool for extracting words from PDF files. It has no knowledge of what a given PDF contains and applies the same processing to any
+file it's given.
