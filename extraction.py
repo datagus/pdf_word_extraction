@@ -7,6 +7,9 @@
 #     "pdfplumber",
 #     "pypdf",
 # ]
+# [tool.marimo.runtime]
+# auto_instantiate = true
+# on_cell_change = "autorun"
 # ///
 
 import marimo
